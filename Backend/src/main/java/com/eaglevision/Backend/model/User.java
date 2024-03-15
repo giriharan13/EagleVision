@@ -13,11 +13,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="person",
+@Table(
+		name = "users",
 	uniqueConstraints = @UniqueConstraint(columnNames = {"userId","userName"})
 )
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person {
+public class User {
 	
 	@Id
 	@GeneratedValue
@@ -32,15 +33,17 @@ public class Person {
 	@Formula("")
 	private Integer age;
 	
-	Person(){
+	User(){
 		super();
+		this.userId = 2;
 	}
 	
-	public Person(String userName, String phoneNumber, Date dateOfBirth) {
+	public User(String userName, String phoneNumber, Date dateOfBirth) {
 		super();
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.dateOfBirth = dateOfBirth;
+		this.userId = 1;
 	}
 
 	public Integer getUserId() {
@@ -51,7 +54,7 @@ public class Person {
 		return userName;
 	}
 
-	public void setUser_name(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
@@ -67,7 +70,7 @@ public class Person {
 		return dateOfBirth;
 	}
 
-	public void setDate_of_birth(Date dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

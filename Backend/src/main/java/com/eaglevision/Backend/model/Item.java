@@ -1,10 +1,18 @@
 package com.eaglevision.Backend.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -20,14 +28,21 @@ public class Item {
 	
 	private Double itemPrice;
 	
-	@OneToMany
-	private List<Ping> pingHistory;
+	@JsonManagedReference(value="item-ping")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "item")
+	private List<Ping> pingHistory = new ArrayList<Ping>();
 	
-	@OneToMany
-	private List<ItemReview> itemReviews;
+	@JsonManagedReference(value="item-review")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "item")
+	private List<ItemReview> itemReviews = new ArrayList<ItemReview>();
+	
+	@JsonBackReference(value="shop-item")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "shop_id",nullable = false)
+	private Shop shop;
 	
 	public Item() {
-		super();
+		super(); 
 	}
 	
 	public Item(String itemName,Double itemPrice) {
@@ -36,12 +51,30 @@ public class Item {
 		this.itemPrice = itemPrice;
 	}
 	
+	public Item(String itemName,Double itemPrice,Shop shop) {
+		super();
+		this.itemName = itemName;
+		this.itemPrice = itemPrice;
+		this.shop = shop;
+	}
+
+	
 	public Item(String itemName,Double itemPrice,List<Ping> pingHistory,List<ItemReview> itemReviews) {
 		super();
 		this.itemName = itemName;
 		this.itemPrice = itemPrice;
 		this.pingHistory = pingHistory;
 		this.itemReviews = itemReviews;
+	}
+	
+	
+	public Item(String itemName,Double itemPrice,List<Ping> pingHistory,List<ItemReview> itemReviews,Shop shop) {
+		super();
+		this.itemName = itemName;
+		this.itemPrice = itemPrice;
+		this.pingHistory = pingHistory;
+		this.itemReviews = itemReviews;
+		this.shop = shop;
 	}
 
 	public String getItemName() {
@@ -86,5 +119,13 @@ public class Item {
 	
 	public void addItemPing(Ping ping) {
 		this.pingHistory.add(ping);
+	}
+	
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 }

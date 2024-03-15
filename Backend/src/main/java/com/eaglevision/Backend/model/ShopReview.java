@@ -1,7 +1,12 @@
 package com.eaglevision.Backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.Size;
@@ -19,11 +24,28 @@ public class ShopReview extends Review {
 	@Column(columnDefinition = "int default 0")
 	private Integer dislikes;
 	
-	@ManyToOne
+	@JsonBackReference(value = "shop-review")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="shop_id",nullable = false)
 	private Shop shop;
 	
 	public ShopReview() {
 		super();
+	}
+	
+	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes,Buyer buyer,Shop shop) {
+		super(stars,isEdited,buyer);
+		this.comment = comment;
+		this.likes = likes;
+		this.dislikes = dislikes;
+		this.shop = shop;
+	}
+	
+	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes,Buyer buyer) {
+		super(stars,isEdited,buyer);
+		this.comment = comment;
+		this.likes = likes;
+		this.dislikes = dislikes;
 	}
 	
 	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes) {

@@ -1,39 +1,39 @@
 package com.eaglevision.Backend.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name="pingId")
-public class VendorResponsePing {
+public class VendorResponsePing extends Ping {
 	
 	private Integer quantity;
 	
-	private Boolean isAvailable;
-	
-	@OneToOne
-	private Item item;
-	
-	@OneToOne
+	@JsonBackReference(value = "vendor-ping")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="vendor_id")
 	private Vendor vendor;
 	
 	public VendorResponsePing() {
 		super();
 	}
 	
-	public VendorResponsePing(Integer quantity,Boolean isAvailable) {
-		super();
+	public VendorResponsePing(Integer quantity,Item item,Vendor vendor) {
+		super(item);
 		this.quantity = quantity;
-		this.isAvailable = isAvailable;
-	}
-	
-	public VendorResponsePing(Integer quantity,Boolean isAvailable,Item item,Vendor vendor) {
-		super();
-		this.quantity = quantity;
-		this.isAvailable = isAvailable;
-		this.item = item;
 		this.vendor = vendor;
+		item.addItemPing(this);
+		vendor.addVendorResponsePing(this);
 	}
 
 	public Integer getQuantity() {
@@ -42,22 +42,6 @@ public class VendorResponsePing {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}
-
-	public Boolean getIsAvailable() {
-		return isAvailable;
-	}
-
-	public void setIsAvailable(Boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
 	}
 
 	public Vendor getVendor() {

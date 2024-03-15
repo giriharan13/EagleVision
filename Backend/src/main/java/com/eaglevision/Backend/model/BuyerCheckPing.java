@@ -1,6 +1,10 @@
 package com.eaglevision.Backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
@@ -8,20 +12,20 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name="pingId")
 public class BuyerCheckPing extends Ping{
 	
-	@ManyToOne
+	@JsonBackReference(value="buyer-ping")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="buyer_id")
 	private Buyer buyer;
-	
-	@ManyToOne
-	private Item item;
 	
 	public BuyerCheckPing() {
 		super();
 	}
 	
 	public BuyerCheckPing(Buyer buyer,Item item) {
-		super();
+		super(item);
 		this.buyer = buyer;
-		this.item = item;
+		item.addItemPing(this);
+		buyer.addBuyerCheckPing(this);
 	}
 
 	public Buyer getBuyer() {
@@ -32,11 +36,4 @@ public class BuyerCheckPing extends Ping{
 		this.buyer = buyer;
 	}
 
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
 }

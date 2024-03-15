@@ -1,9 +1,15 @@
 package com.eaglevision.Backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
+@Entity
 public class Address {
 	
 	@Id
@@ -22,7 +28,8 @@ public class Address {
 	
 	private Integer pinCode;
 	
-	@OneToOne
+	@JsonBackReference(value="shop-address")
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Shop shop;
 	
 	public Address() {

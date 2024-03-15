@@ -1,10 +1,18 @@
 package com.eaglevision.Backend.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -23,19 +31,25 @@ public class Shop {
 	
 	private String contactNumber;
 	
-	@ManyToOne
+	@JsonBackReference(value="vendor-shop")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="vendor_id")
 	private Vendor vendor;
 	
-	@OneToMany
-	private List<ShopReview> shopReviews;
+	@JsonManagedReference(value = "shop-review")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
+	private List<ShopReview> shopReviews = new ArrayList<ShopReview>();
 	
-	@OneToMany
-	private List<Item> items;
+	@JsonManagedReference(value = "shop-item")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "shop") 
+	private List<Item> items = new ArrayList<Item>();
 	
-	@OneToOne
+	@JsonManagedReference(value="shop-address")
+	@OneToOne(cascade = CascadeType.ALL) 
 	private Address address;
 	
-	@OneToOne
+	@JsonManagedReference(value="shop-hours")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Hours hours;
 	
 	public Shop() {
@@ -47,7 +61,20 @@ public class Shop {
 		this.shopName = shopName;
 		this.contactNumber = contactNumber;
 		this.address = address;
+		address.setShop(this);
 		this.hours = hours;
+		hours.setShop(this);
+		this.vendor = vendor;
+		vendor.addShop(this);
+	}
+	
+	public Shop(String shopName, String contactNumber,Address address,Hours hours,List<Item> items,Vendor vendor) {
+		super();
+		this.shopName = shopName;
+		this.contactNumber = contactNumber;
+		this.address = address;
+		this.hours = hours;
+		this.items = items;
 		this.vendor = vendor;
 	}
 
@@ -117,5 +144,20 @@ public class Shop {
 	
 	public void addItem(Item item) {
 		this.items.add(item);
+		item.setShop(this);
+	}
+	
+	public void updateAddress(Address address) {
+		this.address.setLine1(address.getLine1());
+		this.address.setLine2(address.getLine2());
+		this.address.setCity(address.getCity());
+		this.address.setState(address.getState());
+		this.address.setCountry(address.getCountry());
+		this.address.setPinCode(address.getPinCode());
+	}
+	
+	public void updateHours(Hours hours) {
+		this.hours.setOpeningTime(hours.getOpeningTime());
+		this.hours.setClosingTime(hours.getClosingTime());
 	}
 }

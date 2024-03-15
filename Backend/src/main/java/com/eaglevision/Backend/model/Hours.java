@@ -2,10 +2,16 @@ package com.eaglevision.Backend.model;
 
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
+@Entity
 public class Hours {
 	
 	@Id
@@ -16,7 +22,8 @@ public class Hours {
 	
 	private LocalTime closingTime;
 	
-	@OneToOne
+	@JsonBackReference(value="shop-hours")
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Shop shop;
 	
 	public Hours() {
