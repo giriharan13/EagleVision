@@ -29,8 +29,10 @@ public class Shop {
 	
 	private String shopName;
 	
-	private String contactNumber;
+	private String description;
 	
+	private String contactNumber;
+	 
 	@JsonBackReference(value="vendor-shop")
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="vendor_id")
@@ -56,9 +58,10 @@ public class Shop {
 		super();
 	}
 	
-	public Shop(String shopName, String contactNumber,Address address,Hours hours,Vendor vendor) {
+	public Shop(String shopName, String description ,String contactNumber,Address address,Hours hours,Vendor vendor) {
 		super();
 		this.shopName = shopName;
+		this.description = description;
 		this.contactNumber = contactNumber;
 		this.address = address;
 		address.setShop(this);
@@ -68,9 +71,10 @@ public class Shop {
 		vendor.addShop(this);
 	}
 	
-	public Shop(String shopName, String contactNumber,Address address,Hours hours,List<Item> items,Vendor vendor) {
+	public Shop(String shopName, String description, String contactNumber,Address address,Hours hours,List<Item> items,Vendor vendor) {
 		super();
 		this.shopName = shopName;
+		this.description = description;
 		this.contactNumber = contactNumber;
 		this.address = address;
 		this.hours = hours;
@@ -142,11 +146,19 @@ public class Shop {
 		this.shopReviews.add(shopReview);
 	}
 	
-	public void addItem(Item item) {
+	public void addItem(Item item) { 
 		this.items.add(item);
 		item.setShop(this);
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public void updateAddress(Address address) {
 		this.address.setLine1(address.getLine1());
 		this.address.setLine2(address.getLine2());

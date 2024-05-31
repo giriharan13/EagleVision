@@ -10,6 +10,8 @@ public class CreateShopRequest {
 	
 	private String shopName;
 	
+	private String description;
+	
 	private String contactNumber;
 	
 	private Address address;
@@ -26,6 +28,14 @@ public class CreateShopRequest {
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getContactNumber() {

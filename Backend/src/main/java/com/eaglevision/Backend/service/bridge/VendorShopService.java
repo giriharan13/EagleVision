@@ -1,6 +1,5 @@
 package com.eaglevision.Backend.service.bridge;
 
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,7 @@ public class VendorShopService {
 	public Shop addVendorForShop(CreateShopRequest createShopRequest) {
 		Vendor vendor = this.getVendorById(createShopRequest.getUserId());
 		Shop shop = new Shop(createShopRequest.getShopName(),
+							createShopRequest.getDescription(),
 							createShopRequest.getContactNumber(),
 							createShopRequest.getAddress(),
 							createShopRequest.getHours(),

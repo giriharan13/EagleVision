@@ -40,6 +40,7 @@ public class ShopService {
 	
 	public Shop createShop(CreateShopRequest createShopRequest,Vendor vendor) {
 		Shop shop = new Shop(createShopRequest.getShopName(),
+				createShopRequest.getDescription(),
 				createShopRequest.getContactNumber(),
 				createShopRequest.getAddress(),
 				createShopRequest.getHours(),
@@ -55,6 +56,7 @@ public class ShopService {
 	public Shop updateShop(Integer shopId,Shop updatedShop) {
 		Shop shop = shopRepository.findById(shopId).get();
 		shop.setShopName(updatedShop.getShopName());
+		shop.setDescription(updatedShop.getDescription());
 		shop.setContactNumber(updatedShop.getContactNumber());
 		shop.updateAddress(updatedShop.getAddress());
 		shop.updateHours(updatedShop.getHours());
