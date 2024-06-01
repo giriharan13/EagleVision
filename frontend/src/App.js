@@ -6,6 +6,7 @@ import ListShops from './components/listshops/ListShops';
 import Shop from './components/shop/Shop';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import ListPings from './components/pings/ListPings';
+import Home from './components/home/Home';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Header></Header>
       <div className="container" style={{minHeight:"80vh"}}>
         <Routes> 
+          <Route path="/" element={<Home/>}/>
           <Route path="/shops" element={<ListShops/>}/>
           <Route path="/shops/:id" element={<Shop/>}/>
           <Route path="/shops/:shopId/items/:id/pings" element={<ListPings/>}/>
