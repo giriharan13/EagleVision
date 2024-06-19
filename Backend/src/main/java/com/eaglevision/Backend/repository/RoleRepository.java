@@ -5,11 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eaglevision.Backend.model.Vendor;
+import com.eaglevision.Backend.model.Role;
 
 @Repository
-public interface VendorRepository extends JpaRepository<Vendor, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Optional<Vendor> findByUserName(String userName);
-
+    Optional<Role> findByName(String name);
 }
