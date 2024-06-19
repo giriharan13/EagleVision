@@ -8,15 +8,19 @@ import com.eaglevision.Backend.repository.VendorRepository;
 
 @Service
 public class VendorPingService {
-	
+
 	private VendorRepository vendorRepository;
-	
+
 	@Autowired
 	public VendorPingService(VendorRepository vendorRepository) {
 		this.vendorRepository = vendorRepository;
 	}
-	
+
 	public Vendor getVendorForPing(Integer userId) {
 		return this.vendorRepository.findById(userId).get();
+	}
+
+	public String getVendorNameForPing(Integer userId) {
+		return this.vendorRepository.findById(userId).get().getUserName();
 	}
 }
