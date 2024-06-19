@@ -1,34 +1,29 @@
 package com.eaglevision.Backend.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(name="pingId")
+@PrimaryKeyJoinColumn(name = "pingId")
 public class VendorResponsePing extends Ping {
-	
+
 	private Integer quantity;
-	
+
 	@JsonBackReference(value = "vendor-ping")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="vendor_id")
+	@JoinColumn(name = "vendor_id")
 	private Vendor vendor;
-	
+
 	public VendorResponsePing() {
 		super();
 	}
-	
-	public VendorResponsePing(Integer quantity,Item item,Vendor vendor) {
+
+	public VendorResponsePing(Integer quantity, Item item, Vendor vendor) {
 		super(item);
 		this.quantity = quantity;
 		this.vendor = vendor;
@@ -51,5 +46,5 @@ public class VendorResponsePing extends Ping {
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
 	}
-	
+
 }

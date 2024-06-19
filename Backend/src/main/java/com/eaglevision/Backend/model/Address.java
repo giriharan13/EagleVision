@@ -1,7 +1,6 @@
 package com.eaglevision.Backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,32 +10,32 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Address {
-	
+
 	@Id
 	@GeneratedValue
 	private Integer addressId;
-	
+
 	private String line1;
-	
+
 	private String line2;
-	
+
 	private String city;
 
 	private String state;
-	
+
 	private String country;
-	
+
 	private Integer pinCode;
-	
-	@JsonBackReference(value="shop-address")
+
+	@JsonBackReference(value = "shop-address")
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Shop shop;
-	
+
 	public Address() {
 		super();
 	}
-	
-	public Address(String line1,String line2,String city,String state,String country,Integer pinCode) {
+
+	public Address(String line1, String line2, String city, String state, String country, Integer pinCode) {
 		super();
 		this.line1 = line1;
 		this.line2 = line2;
@@ -45,8 +44,8 @@ public class Address {
 		this.country = country;
 		this.pinCode = pinCode;
 	}
-	
-	public Address(String line1,String line2,String city,String state,String country,Integer pinCode,Shop shop) {
+
+	public Address(String line1, String line2, String city, String state, String country, Integer pinCode, Shop shop) {
 		super();
 		this.line1 = line1;
 		this.line2 = line2;

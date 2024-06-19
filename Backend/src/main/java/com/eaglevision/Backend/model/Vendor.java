@@ -1,9 +1,9 @@
 package com.eaglevision.Backend.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -11,25 +11,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
-
 @Entity
-@PrimaryKeyJoinColumn(name="userId")
-public class Vendor extends User{
-	
+@PrimaryKeyJoinColumn(name = "userId")
+public class Vendor extends User {
+
 	@JsonManagedReference(value = "vendor-shop")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "vendor")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
 	private List<Shop> shops = new ArrayList<Shop>();
-	
+
 	@JsonManagedReference(value = "vendor-ping")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "vendor")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "vendor")
 	private List<VendorResponsePing> vendorResponsePings = new ArrayList<VendorResponsePing>();
-	
+
 	public Vendor() {
 		super();
 	}
 
 	public Vendor(List<Shop> shops) {
 		this.shops = shops;
+	}
+
+	public Vendor(String userName, String phoneNumber, Date dateOfBirth) {
+		super(userName, phoneNumber, dateOfBirth);
 	}
 
 	public List<Shop> getShops() {
@@ -39,7 +42,7 @@ public class Vendor extends User{
 	public void setShops(List<Shop> shops) {
 		this.shops = shops;
 	}
-	
+
 	public void addShop(Shop shop) {
 		this.shops.add(shop);
 	}
@@ -51,9 +54,9 @@ public class Vendor extends User{
 	public void setVendorResponsePings(List<VendorResponsePing> vendorResponsePings) {
 		this.vendorResponsePings = vendorResponsePings;
 	}
-	
+
 	public void addVendorResponsePing(VendorResponsePing vendorResponsePing) {
 		this.vendorResponsePings.add(vendorResponsePing);
 	}
-	
+
 }

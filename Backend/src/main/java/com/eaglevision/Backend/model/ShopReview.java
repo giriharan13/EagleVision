@@ -1,7 +1,6 @@
 package com.eaglevision.Backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,50 +11,51 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@PrimaryKeyJoinColumn(name="reviewId")
+@PrimaryKeyJoinColumn(name = "reviewId")
 public class ShopReview extends Review {
-	
-	@Size(min=5,max=100)
+
+	@Size(min = 5, max = 100)
 	private String comment;
-	
+
 	@Column(columnDefinition = "int default 0")
 	private Integer likes;
-	
+
 	@Column(columnDefinition = "int default 0")
 	private Integer dislikes;
-	
+
 	@JsonBackReference(value = "shop-review")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="shop_id",nullable = false)
+	@JoinColumn(name = "shop_id", nullable = false)
 	private Shop shop;
-	
+
 	public ShopReview() {
 		super();
 	}
-	
-	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes,Buyer buyer,Shop shop) {
-		super(stars,isEdited,buyer);
+
+	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes, Buyer buyer,
+			Shop shop) {
+		super(stars, isEdited, buyer);
 		this.comment = comment;
 		this.likes = likes;
 		this.dislikes = dislikes;
 		this.shop = shop;
 	}
-	
-	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes,Buyer buyer) {
-		super(stars,isEdited,buyer);
+
+	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes, Buyer buyer) {
+		super(stars, isEdited, buyer);
 		this.comment = comment;
 		this.likes = likes;
 		this.dislikes = dislikes;
 	}
-	
-	public ShopReview(Integer stars,Boolean isEdited,String comment,Integer likes,Integer dislikes) {
-		super(stars,isEdited);
+
+	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes) {
+		super(stars, isEdited);
 		this.comment = comment;
 		this.likes = likes;
 		this.dislikes = dislikes;
 	}
-	
-	public ShopReview(Integer stars,String comment,Integer likes,Integer dislikes) {
+
+	public ShopReview(Integer stars, String comment, Integer likes, Integer dislikes) {
 		super(stars);
 		this.comment = comment;
 		this.likes = likes;

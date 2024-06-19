@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,45 +18,46 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"shopId","shopName"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "shopId", "shopName" }))
 public class Shop {
-	
+
 	@Id
 	@GeneratedValue
 	private Integer shopId;
-	
+
 	private String shopName;
-	
+
 	private String description;
-	
+
 	private String contactNumber;
-	 
-	@JsonBackReference(value="vendor-shop")
+
+	@JsonBackReference(value = "vendor-shop")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="vendor_id")
+	@JoinColumn(name = "vendor_id")
 	private Vendor vendor;
-	
+
 	@JsonManagedReference(value = "shop-review")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
 	private List<ShopReview> shopReviews = new ArrayList<ShopReview>();
-	
+
 	@JsonManagedReference(value = "shop-item")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "shop") 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
 	private List<Item> items = new ArrayList<Item>();
-	
-	@JsonManagedReference(value="shop-address")
-	@OneToOne(cascade = CascadeType.ALL) 
+
+	@JsonManagedReference(value = "shop-address")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
-	
-	@JsonManagedReference(value="shop-hours")
+
+	@JsonManagedReference(value = "shop-hours")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Hours hours;
-	
+
 	public Shop() {
 		super();
 	}
-	
-	public Shop(String shopName, String description ,String contactNumber,Address address,Hours hours,Vendor vendor) {
+
+	public Shop(String shopName, String description, String contactNumber, Address address, Hours hours,
+			Vendor vendor) {
 		super();
 		this.shopName = shopName;
 		this.description = description;
@@ -70,8 +69,9 @@ public class Shop {
 		this.vendor = vendor;
 		vendor.addShop(this);
 	}
-	
-	public Shop(String shopName, String description, String contactNumber,Address address,Hours hours,List<Item> items,Vendor vendor) {
+
+	public Shop(String shopName, String description, String contactNumber, Address address, Hours hours,
+			List<Item> items, Vendor vendor) {
 		super();
 		this.shopName = shopName;
 		this.description = description;
@@ -141,16 +141,16 @@ public class Shop {
 	public Integer getShopId() {
 		return shopId;
 	}
-	
+
 	public void addShopReview(ShopReview shopReview) {
 		this.shopReviews.add(shopReview);
 	}
-	
-	public void addItem(Item item) { 
+
+	public void addItem(Item item) {
 		this.items.add(item);
 		item.setShop(this);
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -167,7 +167,7 @@ public class Shop {
 		this.address.setCountry(address.getCountry());
 		this.address.setPinCode(address.getPinCode());
 	}
-	
+
 	public void updateHours(Hours hours) {
 		this.hours.setOpeningTime(hours.getOpeningTime());
 		this.hours.setClosingTime(hours.getClosingTime());

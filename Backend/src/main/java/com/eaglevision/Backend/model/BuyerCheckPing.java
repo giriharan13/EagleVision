@@ -9,19 +9,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(name="pingId")
-public class BuyerCheckPing extends Ping{
-	
-	@JsonBackReference(value="buyer-ping")
+@PrimaryKeyJoinColumn(name = "pingId")
+public class BuyerCheckPing extends Ping {
+
+	@JsonBackReference(value = "buyer-ping")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="buyer_id")
+	@JoinColumn(name = "buyer_id")
 	private Buyer buyer;
-	
+
 	public BuyerCheckPing() {
 		super();
 	}
-	
-	public BuyerCheckPing(Buyer buyer,Item item) {
+
+	public BuyerCheckPing(Buyer buyer, Item item) {
 		super(item);
 		this.buyer = buyer;
 		item.addItemPing(this);
