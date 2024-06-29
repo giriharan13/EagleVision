@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eaglevision.Backend.dto.RegisterUserDTO;
+import com.eaglevision.Backend.dto.ValidityDTO;
 import com.eaglevision.Backend.model.Buyer;
 import com.eaglevision.Backend.model.Role;
 import com.eaglevision.Backend.model.Vendor;
@@ -55,29 +56,43 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<String> registerVendor(@RequestBody RegisterUserDTO registerUserDTO) {
-        if (userService.userExistsByUserName(registerUserDTO.getUserName())) {
+        if (userService.userExistsWithUserName(registerUserDTO.getUserName())) {
             return new ResponseEntity<>("Registration Failed: Username already exists!", HttpStatus.BAD_REQUEST);
         }
 
         if (registerUserDTO.getRole().equals("BUYER")) {
-            Buyer buyer = new Buyer(registerUserDTO.getUserName(), registerUserDTO.getPhoneNumber(),
-                    registerUserDTO.getDateOfBirth());
-            buyer.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
-            List<Role> roles = List.of(roleService.findRoleByName(registerUserDTO.getRole()));
-            buyer.setRoles(roles);
-            buyerService.createBuyer(buyer);
+            buyerService.createBuyer(new Buyer(registerUserDTO.getUserName(),
+                    passwordEncoder.encode(registerUserDTO.getPassword()),
+                    registerUserDTO.getPhoneNumber(),
+                    registerUserDTO.getDateOfBirth(),
+                    List.of(roleService.findRoleByName((registerUserDTO.getRole())))));
             return new ResponseEntity<>("Registration Success: Buyer created!", HttpStatus.OK);
 
         } else if (registerUserDTO.getRole().equals("VENDOR")) {
-            Vendor vendor = new Vendor(registerUserDTO.getUserName(), registerUserDTO.getPhoneNumber(),
-                    registerUserDTO.getDateOfBirth());
-            vendor.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
-            List<Role> roles = List.of(roleService.findRoleByName(registerUserDTO.getRole()));
-            vendor.setRoles(roles);
-            vendorService.createVendor(vendor);
+            vendorService.createVendor(new Vendor(registerUserDTO.getUserName(),
+                    passwordEncoder.encode(registerUserDTO.getPassword()),
+                    registerUserDTO.getPhoneNumber(),
+                    registerUserDTO.getDateOfBirth(),
+                    List.of(roleService.findRoleByName((registerUserDTO.getRole())))));
             return new ResponseEntity<>("Registration Success: Vendor created!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Registration Failed: Invalid role!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("username_validity_checks")
+    public ResponseEntity<String> checkUserName(@RequestBody ValidityDTO<String> userNameValidityDTO) {
+        if (userService.userExistsWithUserName(userNameValidityDTO.getField())) {
+            return new ResponseEntity<>("Username already taken!", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("Valid username", HttpStatus.OK);
+    }
+
+    @PostMapping("phoneNumber_validity_checks")
+    public ResponseEntity<String> checkPhoneNumber(@RequestBody ValidityDTO<String> phoneNumberValidityDTO) {
+        if (userService.userExistsWithPhoneNumber(phoneNumberValidityDTO.getField())) {
+            return new ResponseEntity<>("Phone number already taken!", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("Valid phone number", HttpStatus.OK);
     }
 
     private String createToken(Authentication authentication) {
