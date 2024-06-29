@@ -12,35 +12,40 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(name="userId")
-public class Buyer extends User{
-	
-	@JsonManagedReference(value="buyer-ping")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "buyer")
+@PrimaryKeyJoinColumn(name = "userId")
+public class Buyer extends User {
+
+	@JsonManagedReference(value = "buyer-ping")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
 	private List<BuyerCheckPing> pingHistory = new ArrayList<BuyerCheckPing>();
-	
-	@JsonManagedReference(value="buyer-review")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "buyer")
+
+	@JsonManagedReference(value = "buyer-review")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
 	private List<Review> reviews = new ArrayList<Review>();
-	
+
 	public Buyer() {
 		super();
 	}
-	
-	public Buyer(String userName,String phoneNumber,Date dateOfBirth ) {
-		super(userName,phoneNumber,dateOfBirth);
+
+	public Buyer(String userName, String phoneNumber, Date dateOfBirth) {
+		super(userName, phoneNumber, dateOfBirth);
 	}
-	
-	public Buyer(List<BuyerCheckPing> pingHistory,List<Review> reviews) {
+
+	public Buyer(List<BuyerCheckPing> pingHistory, List<Review> reviews) {
 		super();
-		this.pingHistory=pingHistory;
-		this.reviews = reviews;
-	}
-	
-	public Buyer(String userName,String phoneNumber,Date dateOfBirth,List<BuyerCheckPing> pingHistory,List<Review> reviews ) {
-		super(userName,phoneNumber,dateOfBirth);
 		this.pingHistory = pingHistory;
 		this.reviews = reviews;
+	}
+
+	public Buyer(String userName, String phoneNumber, Date dateOfBirth, List<BuyerCheckPing> pingHistory,
+			List<Review> reviews) {
+		super(userName, phoneNumber, dateOfBirth);
+		this.pingHistory = pingHistory;
+		this.reviews = reviews;
+	}
+
+	public Buyer(String username, String password, String phoneNumber, Date dateOfBirth, List<Role> roles) {
+		super(username, password, phoneNumber, dateOfBirth, roles);
 	}
 
 	public List<BuyerCheckPing> getPingHistory() {
@@ -50,7 +55,7 @@ public class Buyer extends User{
 	public void setPingHistory(List<BuyerCheckPing> pingHistory) {
 		this.pingHistory = pingHistory;
 	}
-	
+
 	public void addBuyerCheckPing(BuyerCheckPing buyerCheckPing) {
 		this.pingHistory.add(buyerCheckPing);
 	}
@@ -62,9 +67,9 @@ public class Buyer extends User{
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-	
+
 	public void addReview(Review review) {
 		this.reviews.add(review);
 	}
-	
+
 }

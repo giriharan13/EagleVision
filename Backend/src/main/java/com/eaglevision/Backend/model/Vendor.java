@@ -35,6 +35,10 @@ public class Vendor extends User {
 		super(userName, phoneNumber, dateOfBirth);
 	}
 
+	public Vendor(String username, String password, String phoneNumber, Date dateOfBirth, List<Role> roles) {
+		super(username, password, phoneNumber, dateOfBirth, roles);
+	}
+
 	public List<Shop> getShops() {
 		return shops;
 	}

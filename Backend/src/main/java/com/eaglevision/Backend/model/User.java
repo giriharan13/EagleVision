@@ -9,6 +9,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -24,7 +25,7 @@ import jakarta.persistence.UniqueConstraint;
 public class User {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
 
 	private String userName;
@@ -44,7 +45,7 @@ public class User {
 
 	User() {
 		super();
-		this.userId = 2;
+		// this.userId = 2;
 	}
 
 	public User(String userName, String phoneNumber, Date dateOfBirth) {
@@ -52,7 +53,16 @@ public class User {
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.dateOfBirth = dateOfBirth;
-		this.userId = 1;
+		// this.userId = 1;
+	}
+
+	public User(String userName, String password, String phoneNumber, Date dateOfBirth, List<Role> roles) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.dateOfBirth = dateOfBirth;
+		this.roles = roles;
 	}
 
 	public Integer getUserId() {
