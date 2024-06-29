@@ -37,8 +37,8 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((auth) -> {
             auth.requestMatchers("/h2-console/**").permitAll();
-            auth.requestMatchers("/auth/**").permitAll();
             auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+            auth.requestMatchers("/auth/**").permitAll();
             auth.anyRequest().authenticated();
         });
         http.httpBasic(Customizer.withDefaults());
