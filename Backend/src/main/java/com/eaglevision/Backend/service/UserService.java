@@ -20,8 +20,12 @@ public class UserService {
         return userRepository.findByUserName(userName).get();
     }
 
-    public Boolean userExistsByUserName(String userName) {
+    public Boolean userExistsWithUserName(String userName) {
         return userRepository.existsByUserName(userName);
+    }
+
+    public Boolean userExistsWithPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
 }
