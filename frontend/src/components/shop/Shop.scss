@@ -1,0 +1,140 @@
+.shop-hero{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 1rem;
+    background-color:  #EFECFF;
+    padding: 2rem;
+    border-radius: 2rem;
+
+
+    > .shop-info{
+        display: flex;
+        flex-direction: column;
+        gap:0.4rem;
+        width: 100%;
+        @media (min-width:1024px){
+            width: 50%;
+        }
+
+
+        > .shop-name{
+            font-weight: 900;   
+            font-size:2rem;
+
+
+            @media (min-width:1024px){
+                font-size:4rem;
+            }
+        }
+
+        > .shop-description{
+            display: flex;
+            margin-left: 1rem;
+            flex-wrap: wrap;
+        }
+
+        > .shop-contact{
+            margin-left: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            > .icon{
+                background-color:#242331 ;
+                padding: 0.6rem;
+                border-radius: 10rem;
+            }
+
+        }
+    }
+
+    div{
+        > .shop-image{
+            @media (min-width:1024px){
+                display: block;
+                max-width: 30rem;
+            }
+            display: none;
+
+            max-width: 30rem;
+            height: 25rem;
+            object-fit: cover;
+            border-radius: 2rem;
+        }
+    }
+
+
+}
+
+
+.shop-items , .shop-reviews{
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+
+    > .items {
+        display:flex;
+        min-height: 15rem;
+
+        overflow-y: hidden;
+        overflow-x: auto;
+        scrollbar-color:#242331 white ;
+
+        background-color: rgb(36, 35, 49,0.04);
+        border-radius: 1rem;
+
+        > div {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: x-large;
+        }
+
+    }
+
+    > .heading{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+        margin: 1rem;
+    }
+
+    > .review-form{
+        display: flex;
+        flex-direction: column;
+        gap:0.5rem;
+        align-items: flex-start;
+        background-color: rgb(36, 35, 49,0.1) ;
+        padding: 1rem;
+        border-radius: 1rem;
+
+        > textarea{
+            display: flex !important;
+            width: 90%;
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+    }
+
+
+    > .reviews{
+        padding: 2rem;
+        margin-top:2rem;
+        background-color: rgb(36, 35, 49,0.04);
+        border-radius: 1rem;
+    }
+}
+
+
+.list-shops{
+    display: flex;
+    justify-content: space-between;
+    
+    > div{
+        margin: 2rem;
+    }
+}
