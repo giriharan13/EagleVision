@@ -6,6 +6,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
@@ -13,9 +14,13 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 public class BuyerCheckPing extends Ping {
 
 	@JsonBackReference(value = "buyer-ping")
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "buyer_id")
 	private Buyer buyer;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "response_id")
+	private VendorResponsePing vendorResponsePing;
 
 	public BuyerCheckPing() {
 		super();
@@ -34,6 +39,14 @@ public class BuyerCheckPing extends Ping {
 
 	public void setBuyer(Buyer buyer) {
 		this.buyer = buyer;
+	}
+
+	public VendorResponsePing getVendorResponsePing() {
+		return vendorResponsePing;
+	}
+
+	public void setVendorResponsePing(VendorResponsePing vendorResponsePing) {
+		this.vendorResponsePing = vendorResponsePing;
 	}
 
 }

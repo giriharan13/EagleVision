@@ -19,10 +19,10 @@ public class Role {
     @Column(unique = true)
     private String name;
 
-    Role() {
+    public Role() {
     }
 
-    Role(Integer roleId, String name) {
+    public Role(Integer roleId, String name) {
         this.roleId = roleId;
         this.name = name;
     }

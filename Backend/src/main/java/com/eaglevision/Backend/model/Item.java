@@ -17,59 +17,40 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"itemId","itemName"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "itemId", "itemName" }))
 public class Item {
 	@Id
 	@GeneratedValue
 	private Integer itemId;
-	
+
 	private String itemName;
-	
+
+	private String itemDescription;
+
 	private Double itemPrice;
-	
-	@JsonManagedReference(value="item-ping")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "item")
+
+	@JsonManagedReference(value = "item-ping")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
 	private List<Ping> pingHistory = new ArrayList<Ping>();
-	
-	@JsonManagedReference(value="item-review")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "item")
+
+	@JsonManagedReference(value = "item-review")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
 	private List<ItemReview> itemReviews = new ArrayList<ItemReview>();
-	
-	@JsonBackReference(value="shop-item")
+
+	@JsonBackReference(value = "shop-item")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "shop_id",nullable = false)
+	@JoinColumn(name = "shop_id", nullable = false)
 	private Shop shop;
-	
+
 	public Item() {
-		super(); 
-	}
-	
-	public Item(String itemName,Double itemPrice) {
 		super();
-		this.itemName = itemName;
-		this.itemPrice = itemPrice;
-	}
-	
-	public Item(String itemName,Double itemPrice,Shop shop) {
-		super();
-		this.itemName = itemName;
-		this.itemPrice = itemPrice;
-		this.shop = shop;
 	}
 
-	
-	public Item(String itemName,Double itemPrice,List<Ping> pingHistory,List<ItemReview> itemReviews) {
+	public Item(String itemName, String itemDescription, Double itemPrice, List<Ping> pingHistory,
+			List<ItemReview> itemReviews, Shop shop) {
 		super();
 		this.itemName = itemName;
-		this.itemPrice = itemPrice;
-		this.pingHistory = pingHistory;
-		this.itemReviews = itemReviews;
-	}
-	
-	
-	public Item(String itemName,Double itemPrice,List<Ping> pingHistory,List<ItemReview> itemReviews,Shop shop) {
-		super();
-		this.itemName = itemName;
+		this.itemDescription = itemDescription;
 		this.itemPrice = itemPrice;
 		this.pingHistory = pingHistory;
 		this.itemReviews = itemReviews;
@@ -92,6 +73,14 @@ public class Item {
 		this.itemPrice = itemPrice;
 	}
 
+	public String getItemDescription() {
+		return itemDescription;
+	}
+
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
+	}
+
 	public Integer getItemId() {
 		return itemId;
 	}
@@ -111,15 +100,15 @@ public class Item {
 	public void setItemReviews(List<ItemReview> itemReviews) {
 		this.itemReviews = itemReviews;
 	}
-	
+
 	public void addItemReview(ItemReview itemReview) {
 		this.itemReviews.add(itemReview);
 	}
-	
+
 	public void addItemPing(Ping ping) {
 		this.pingHistory.add(ping);
 	}
-	
+
 	public Shop getShop() {
 		return shop;
 	}

@@ -10,32 +10,32 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "reviewId")
-public class ItemReview extends Review{
-	
-	@JsonBackReference(value="item-review")
+public class ItemReview extends Review {
+
+	@JsonBackReference(value = "item-review")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="item_id",nullable = false)
+	@JoinColumn(name = "item_id", nullable = false)
 	private Item item;
-	
+
 	public ItemReview() {
 		super();
 	}
-	
-	public ItemReview(Integer stars) {
-		super(stars);
+
+	public ItemReview(Integer stars, String comment) {
+		super(stars, comment);
 	}
-	
-	public ItemReview(Integer stars,Boolean isEdited) {
-		super(stars,isEdited);
+
+	public ItemReview(Integer stars, String comment, Boolean isEdited) {
+		super(stars, comment, isEdited);
 	}
-	 
-	public ItemReview(Integer stars,Boolean isEdited,Item item) {
-		super(stars,isEdited);
+
+	public ItemReview(Integer stars, String comment, Boolean isEdited, Item item) {
+		super(stars, comment, isEdited);
 		this.item = item;
 	}
-	
-	public ItemReview(Integer stars,Boolean isEdited,Item item,Buyer buyer) {
-		super(stars,isEdited,buyer);
+
+	public ItemReview(Integer stars, String comment, Boolean isEdited, Item item, Buyer buyer) {
+		super(stars, comment, isEdited, buyer);
 		item.addItemReview(this);
 		this.item = item;
 	}

@@ -8,14 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "reviewId")
 public class ShopReview extends Review {
-
-	@Size(min = 5, max = 100)
-	private String comment;
 
 	@Column(columnDefinition = "int default 0")
 	private Integer likes;
@@ -34,40 +30,28 @@ public class ShopReview extends Review {
 
 	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes, Buyer buyer,
 			Shop shop) {
-		super(stars, isEdited, buyer);
-		this.comment = comment;
+		super(stars, comment, isEdited, buyer);
 		this.likes = likes;
 		this.dislikes = dislikes;
 		this.shop = shop;
 	}
 
 	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes, Buyer buyer) {
-		super(stars, isEdited, buyer);
-		this.comment = comment;
+		super(stars, comment, isEdited, buyer);
 		this.likes = likes;
 		this.dislikes = dislikes;
 	}
 
 	public ShopReview(Integer stars, Boolean isEdited, String comment, Integer likes, Integer dislikes) {
-		super(stars, isEdited);
-		this.comment = comment;
+		super(stars, comment, isEdited);
 		this.likes = likes;
 		this.dislikes = dislikes;
 	}
 
 	public ShopReview(Integer stars, String comment, Integer likes, Integer dislikes) {
-		super(stars);
-		this.comment = comment;
+		super(stars, comment);
 		this.likes = likes;
 		this.dislikes = dislikes;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 
 	public Integer getLikes() {

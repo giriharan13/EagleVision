@@ -13,50 +13,57 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Review {
-	
+
 	@Id
 	@GeneratedValue
 	private Integer reviewId;
-	
+
 	@Min(value = 1)
 	@Max(value = 5)
 	private Integer stars;
-	
+
 	@Column(columnDefinition = "boolean default false")
 	private Boolean isEdited;
-	
+
+	@Size(min = 5, max = 100)
+	private String comment;
+
 	@JsonBackReference(value = "buyer-review")
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "buyer_id")
 	private Buyer buyer;
-	
-	Review(){
+
+	Review() {
 		super();
 	}
-	
-	Review(Integer stars){
+
+	Review(Integer stars, String comment) {
 		super();
 		this.stars = stars;
+		this.comment = comment;
 	}
-	
-	Review(Integer stars,Boolean isEdited){
+
+	Review(Integer stars, String comment, Boolean isEdited) {
 		super();
 		this.stars = stars;
+		this.comment = comment;
 		this.isEdited = isEdited;
 	}
-	
-	Review(Integer stars,Boolean isEdited,Buyer buyer){
+
+	Review(Integer stars, String comment, Boolean isEdited, Buyer buyer) {
 		super();
 		this.stars = stars;
+		this.comment = comment;
 		this.isEdited = isEdited;
 		this.buyer = buyer;
 		buyer.addReview(this);
 	}
-	
+
 	public Integer getReviewId() {
 		return reviewId;
 	}
@@ -84,5 +91,13 @@ public class Review {
 	public void setBuyer(Buyer buyer) {
 		this.buyer = buyer;
 	}
-	
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 }
