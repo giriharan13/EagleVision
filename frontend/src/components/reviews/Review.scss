@@ -1,0 +1,40 @@
+.review{
+
+    
+    padding: 2rem;
+    margin-bottom: 1rem;
+    border-radius: 0.7rem;
+
+    background-color: white;
+
+    > .review-info,.edit-review .review-form{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        
+    }
+
+
+    > .review-info{
+        > .author{
+            font-weight: 700;
+            font-size: x-large;
+        }
+    }
+
+    > .edit-review{
+
+
+        > .review-form{
+             
+            > textarea{
+                width: 100%;
+                border-radius: 0.5rem;
+                border:2px solid #ccc;
+                padding: 1rem;
+                box-shadow: 1rem;
+            }
+        }
+    }
+
+}
