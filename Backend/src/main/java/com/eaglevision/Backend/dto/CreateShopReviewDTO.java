@@ -1,6 +1,6 @@
 package com.eaglevision.Backend.dto;
 
-public class CreateShopReviewDTO extends CreateReviewDTO {
+public class CreateShopReviewDTO extends CreateItemReviewDTO {
 	private String comment;
 
 	public String getComment() {

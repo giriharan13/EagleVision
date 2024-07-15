@@ -5,8 +5,7 @@ import java.util.Date;
 import com.eaglevision.Backend.model.BuyerCheckPing;
 import com.eaglevision.Backend.model.VendorResponsePing;
 
-public class PingResponseDTO {
-    private Integer type;
+public class BuyerCheckPingDTO {
 
     private Integer pingId;
 
@@ -18,52 +17,43 @@ public class PingResponseDTO {
 
     private Integer quantity;
 
-    public PingResponseDTO() {
+    private VendorResponsePing vendorResponsePing;
+
+    public BuyerCheckPingDTO() {
         super();
     }
 
-    public PingResponseDTO(Integer userId, Date creationDate) {
+    public BuyerCheckPingDTO(Integer userId, Date creationDate) {
         super();
-        this.type = 0;
         this.userId = userId;
         this.creationDate = creationDate;
         this.quantity = null;
     }
 
-    public PingResponseDTO(Integer userId, Date creationDate, Integer quantity) {
+    public BuyerCheckPingDTO(Integer userId, Date creationDate, Integer quantity) {
         super();
-        this.type = 1;
         this.userId = userId;
         this.creationDate = creationDate;
         this.quantity = quantity;
     }
 
-    public PingResponseDTO(BuyerCheckPing buyerCheckPing, String userName) {
+    public BuyerCheckPingDTO(BuyerCheckPing buyerCheckPing) {
         super();
-        this.type = 0;
         this.pingId = buyerCheckPing.getPingId();
         this.userId = buyerCheckPing.getBuyer().getUserId();
-        this.userName = userName;
+        this.userName = buyerCheckPing.getBuyer().getUserName();
         this.creationDate = buyerCheckPing.getCreationDate();
+        this.vendorResponsePing = buyerCheckPing.getVendorResponsePing();
         this.quantity = null;
     }
 
-    public PingResponseDTO(VendorResponsePing vendorResponsePing, String userName) {
+    public BuyerCheckPingDTO(VendorResponsePing vendorResponsePing) {
         super();
-        this.type = 1;
         this.pingId = vendorResponsePing.getPingId();
         this.userId = vendorResponsePing.getVendor().getUserId();
-        this.userName = userName;
+        this.userName = vendorResponsePing.getVendor().getUserName();
         this.creationDate = vendorResponsePing.getCreationDate();
         this.quantity = vendorResponsePing.getQuantity();
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public Integer getPingId() {
@@ -105,4 +95,13 @@ public class PingResponseDTO {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public VendorResponsePing getVendorResponsePing() {
+        return vendorResponsePing;
+    }
+
+    public void setVendorResponsePing(VendorResponsePing vendorResponsePing) {
+        this.vendorResponsePing = vendorResponsePing;
+    }
+
 }

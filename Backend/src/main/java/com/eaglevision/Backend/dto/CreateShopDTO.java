@@ -18,7 +18,7 @@ public class CreateShopDTO {
 
 	private Hours hours;
 
-	private Integer userId;
+	private String userName;
 
 	public List<Item> items;
 
@@ -62,12 +62,12 @@ public class CreateShopDTO {
 		this.hours = hours;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public List<Item> getItems() {

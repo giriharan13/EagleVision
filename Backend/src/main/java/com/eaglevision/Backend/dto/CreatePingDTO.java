@@ -15,6 +15,8 @@ public class CreatePingDTO {
 
 	private Integer quantity;
 
+	private Integer responseToId;
+
 	public Integer getType() {
 		return type;
 	}
@@ -53,6 +55,14 @@ public class CreatePingDTO {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public Integer getResponseToId() {
+		return responseToId;
+	}
+
+	public void setResponseToId(Integer responseToId) {
+		this.responseToId = responseToId;
 	}
 
 }
