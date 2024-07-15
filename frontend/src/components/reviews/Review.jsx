@@ -6,18 +6,12 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { useAuth } from '../../security/AuthContext';
 import { Field, Form, Formik } from 'formik';
 import StarField from '../starField/StarField';
-import { useNavigate, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
 
 
-function Review({review,key,setRefresh,refresh,handleUpdateReview,handleDeleteReview}) {
+function Review({review,key,handleUpdateReview,handleDeleteReview}) {
   const [editMode,setEditMode] = useState(false);
 
   const authContext = useAuth();
-
-  const navigate = useNavigate();
-
-  const {shopId} = useParams();
 
   const stars = [1,2,3,4,5];
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createShopReview, deleteShopReview, getOwnerId, getShopById, updateShopReview } from "../../service/BackendApi";
 import ShopImage from "./../../images/shop.jpg";
 import "./Shop.scss";
@@ -8,10 +8,7 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { FaClock } from "react-icons/fa";
 import ItemOverview from "../item/ItemOverview";
 import { useAuth } from "../../security/AuthContext";
-import { Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
-import Review from "../reviews/Review";
-import StarField from "../starField/StarField";
 import Reviews from "../reviews/Reviews";
 
 

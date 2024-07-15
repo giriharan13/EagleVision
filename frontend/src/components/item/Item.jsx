@@ -41,7 +41,7 @@ function Item() {
         })
 
 
-    },[refresh])
+    },[refresh,authContext.decoded.userId])
 
     async function handleDeleteItem(){
         return deleteItem(shopId,itemId).then((response)=>{
