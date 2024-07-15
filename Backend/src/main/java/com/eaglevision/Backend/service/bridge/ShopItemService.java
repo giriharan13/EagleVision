@@ -8,14 +8,14 @@ import com.eaglevision.Backend.service.ShopService;
 
 @Service
 public class ShopItemService {
-	
+
 	private ShopService shopService;
-	
+
 	@Autowired
 	public ShopItemService(ShopService shopService) {
 		this.shopService = shopService;
 	}
-	
+
 	public Shop getShopForItem(Integer shopId) {
 		return this.shopService.getShopById(shopId);
 	}

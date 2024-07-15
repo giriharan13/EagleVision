@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eaglevision.Backend.dto.RegisterUserDTO;
 import com.eaglevision.Backend.model.Buyer;
 import com.eaglevision.Backend.model.Review;
 import com.eaglevision.Backend.repository.BuyerRepository;
@@ -36,10 +35,6 @@ public class BuyerService {
 		buyerRepository.save(buyer);
 		return buyer;
 	}
-
-	// public Buyer createBuyer(RegisterUserDTO registerUserDTO){
-
-	// }
 
 	public Buyer updateBuyer(Buyer updatedBuyer, Integer userId) {
 		Buyer buyer = buyerRepository.findById(userId).get();

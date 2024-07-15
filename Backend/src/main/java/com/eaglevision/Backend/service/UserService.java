@@ -28,4 +28,8 @@ public class UserService {
         return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
+    public Integer getUserIdByUserName(String name) {
+        return userRepository.findByUserName(name).get().getUserId();
+    }
+
 }

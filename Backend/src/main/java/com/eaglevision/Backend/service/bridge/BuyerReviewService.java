@@ -3,7 +3,7 @@ package com.eaglevision.Backend.service.bridge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eaglevision.Backend.dto.CreateReviewDTO;
+import com.eaglevision.Backend.dto.CreateItemReviewDTO;
 import com.eaglevision.Backend.dto.CreateShopReviewDTO;
 import com.eaglevision.Backend.model.Buyer;
 import com.eaglevision.Backend.model.Item;
@@ -39,14 +39,16 @@ public class BuyerReviewService {
 		return shopReview;
 	}
 
-	public ItemReview createItemReview(CreateReviewDTO createReviewRequest, Item item) {
+	public ItemReview createItemReview(CreateItemReviewDTO createReviewRequest, Item item) {
 		Integer stars = createReviewRequest.getStars();
 
 		Integer userId = createReviewRequest.getUserId();
 
+		String comment = createReviewRequest.getComment();
+
 		Buyer buyer = this.getBuyerForReview(userId);
 
-		ItemReview itemReview = new ItemReview(stars, false, item, buyer);
+		ItemReview itemReview = new ItemReview(stars, comment, false, item, buyer);
 		return itemReview;
 	}
 }

@@ -26,6 +26,10 @@ public class VendorService {
 		return this.vendorRepository.findById(id).get();
 	}
 
+	public Vendor getVendorByName(String name) {
+		return this.vendorRepository.findByUserName(name).get();
+	}
+
 	public List<Vendor> getVendors() {
 		return this.vendorRepository.findAll();
 	}
