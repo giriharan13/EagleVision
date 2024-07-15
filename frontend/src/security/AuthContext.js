@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { authenticate } from "../service/BackendApi";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext()
 
@@ -15,13 +16,19 @@ export default function AuthProvider({children}){
         return localStorage.getItem("JWTToken") ||  "";
     })
 
+    const [decoded,setDecoded] = useState(()=>{
+        return JWTToken ? jwtDecode(JWTToken) : null;
+    })
+
     useEffect(()=>{
         if(JWTToken){
             localStorage.setItem("JWTToken",JWTToken);
+            setDecoded(jwtDecode(JWTToken))
         }
         else{
             setIsAuthenticated(false)
             localStorage.removeItem("JWTToken")
+            setDecoded(null)
         }
     },[JWTToken])
 
@@ -33,10 +40,13 @@ export default function AuthProvider({children}){
         .then((response)=>{
             setIsAuthenticated(true);
             setJWTToken(response.data.token);
+            return response;
         })
         .catch((error)=>{
             setIsAuthenticated(false);
-            setJWTToken("")
+            setJWTToken("");
+            setDecoded(null);
+            throw error;
         })
     }
 
@@ -44,9 +54,11 @@ export default function AuthProvider({children}){
         setIsAuthenticated(false);
         localStorage.removeItem("JWTToken");
         setJWTToken("");
+        setDecoded(null)
     }
 
-    const state = {isAuthenticated,JWTToken,login,logout}
+
+    const state = {isAuthenticated,JWTToken,decoded,login,logout}
 
     return (
         <AuthContext.Provider value={state}>
