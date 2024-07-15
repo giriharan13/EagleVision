@@ -61,19 +61,21 @@ public class AuthController {
         }
 
         if (registerUserDTO.getRole().equals("BUYER")) {
-            buyerService.createBuyer(new Buyer(registerUserDTO.getUserName(),
-                    passwordEncoder.encode(registerUserDTO.getPassword()),
-                    registerUserDTO.getPhoneNumber(),
-                    registerUserDTO.getDateOfBirth(),
-                    List.of(roleService.findRoleByName((registerUserDTO.getRole())))));
+            Buyer buyer = new Buyer(registerUserDTO.getUserName(), registerUserDTO.getPhoneNumber(),
+                    registerUserDTO.getDateOfBirth());
+            buyer.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+            List<Role> roles = List.of(roleService.findRoleByName(registerUserDTO.getRole()));
+            buyer.setRoles(roles);
+            buyerService.createBuyer(buyer);
             return new ResponseEntity<>("Registration Success: Buyer created!", HttpStatus.OK);
 
         } else if (registerUserDTO.getRole().equals("VENDOR")) {
-            vendorService.createVendor(new Vendor(registerUserDTO.getUserName(),
-                    passwordEncoder.encode(registerUserDTO.getPassword()),
-                    registerUserDTO.getPhoneNumber(),
-                    registerUserDTO.getDateOfBirth(),
-                    List.of(roleService.findRoleByName((registerUserDTO.getRole())))));
+            Vendor vendor = new Vendor(registerUserDTO.getUserName(), registerUserDTO.getPhoneNumber(),
+                    registerUserDTO.getDateOfBirth());
+            vendor.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+            List<Role> roles = List.of(roleService.findRoleByName(registerUserDTO.getRole()));
+            vendor.setRoles(roles);
+            vendorService.createVendor(vendor);
             return new ResponseEntity<>("Registration Success: Vendor created!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Registration Failed: Invalid role!", HttpStatus.BAD_REQUEST);
@@ -101,6 +103,7 @@ public class AuthController {
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(60 * 60))
                 .subject(authentication.getName())
+                .claim("userId", userService.getUserIdByUserName(authentication.getName()))
                 .claim("scope", createScope(authentication)).build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

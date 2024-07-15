@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eaglevision.Backend.dto.BuyerCheckPingDTO;
 import com.eaglevision.Backend.dto.CreatePingDTO;
-import com.eaglevision.Backend.dto.PingResponseDTO;
 import com.eaglevision.Backend.model.BuyerCheckPing;
 import com.eaglevision.Backend.model.Item;
 import com.eaglevision.Backend.model.Ping;
@@ -54,29 +54,32 @@ public class PingController {
 		return ResponseEntity.ok(this.pingService.createPing(item, createPingRequest));
 	}
 
+	@PostMapping(value = "/shops/{shopId}/items/{itemId}/pings/{pingId}")
+	public ResponseEntity<Ping> createVendorPing(@PathVariable Integer shopId, @PathVariable Integer itemId,
+			@PathVariable Integer pingId, @RequestBody CreatePingDTO createPingDTO) {
+		System.out.println(itemId + " " + pingId + " " + shopId);
+		VendorResponsePing vendorResponsePing = this.pingService.createVendorResponsePing(shopId, itemId, pingId,
+				createPingDTO);
+		return ResponseEntity.ok(vendorResponsePing);
+	}
+
 	@GetMapping(value = "/shops/{shopId}/items/{itemId}/pings")
-	public List<PingResponseDTO> getAllPings(@PathVariable Integer shopId, @PathVariable Integer itemId) {
-		return this.pingService.getAllPings(itemId).stream().map((Ping ping) -> {
-			if (ping instanceof BuyerCheckPing) {
-				BuyerCheckPing buyerCheckPing = (BuyerCheckPing) ping;
-				return new PingResponseDTO(buyerCheckPing, buyerCheckPing.getBuyer().getUserName());
-			} else {
-				VendorResponsePing vendorResponsePing = (VendorResponsePing) ping;
-				return new PingResponseDTO(vendorResponsePing, vendorResponsePing.getVendor().getUserName());
-			}
-		}).toList();
+	public List<BuyerCheckPingDTO> getAllBuyerCheckPings(@PathVariable Integer shopId,
+			@PathVariable Integer itemId) {
+		return this.pingService.getAllBuyerCheckPings(itemId).stream()
+				.map((BuyerCheckPing buyerCheckPing) -> new BuyerCheckPingDTO(buyerCheckPing)).toList();
 	}
 
 	@GetMapping(value = "/shops/{shopId}/items/{itemId}/pings/{pingId}")
-	public PingResponseDTO getPingById(@PathVariable Integer shopId, @PathVariable Integer itemId,
+	public BuyerCheckPingDTO getPingById(@PathVariable Integer shopId, @PathVariable Integer itemId,
 			@PathVariable Integer pingId) {
 		Ping ping = this.pingService.getPing(itemId, pingId);
 		if (ping instanceof BuyerCheckPing) {
 			BuyerCheckPing buyerCheckPing = (BuyerCheckPing) ping;
-			return new PingResponseDTO(buyerCheckPing, buyerCheckPing.getBuyer().getUserName());
+			return new BuyerCheckPingDTO(buyerCheckPing);
 		} else {
 			VendorResponsePing vendorResponsePing = (VendorResponsePing) ping;
-			return new PingResponseDTO(vendorResponsePing, vendorResponsePing.getVendor().getUserName());
+			return new BuyerCheckPingDTO(vendorResponsePing);
 		}
 	}
 }

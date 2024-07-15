@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eaglevision.Backend.dto.CreateShopDTO;
+import com.eaglevision.Backend.dto.ShopDTO;
 import com.eaglevision.Backend.model.Shop;
-import com.eaglevision.Backend.model.Vendor;
 import com.eaglevision.Backend.service.ShopService;
-import com.eaglevision.Backend.service.bridge.VendorShopService;
 
 @RestController
 @RequestMapping
@@ -25,18 +24,14 @@ public class ShopController {
 
 	private ShopService shopService;
 
-	private VendorShopService vendorShopService;
-
 	@Autowired
-	public ShopController(ShopService shopService, VendorShopService vendorShopService) {
+	public ShopController(ShopService shopService) {
 		this.shopService = shopService;
-		this.vendorShopService = vendorShopService;
 	}
 
 	@PostMapping(value = "/shops")
 	public ResponseEntity<Shop> createShop(@RequestBody CreateShopDTO createShopRequest) {
-		Vendor vendor = this.vendorShopService.getVendorById(createShopRequest.getUserId());
-		return ResponseEntity.ok(shopService.createShop(createShopRequest, vendor));
+		return ResponseEntity.ok(shopService.createShop(createShopRequest));
 	}
 
 	@GetMapping("/users/vendors/{vendorId}/ownedshops")
@@ -55,8 +50,13 @@ public class ShopController {
 	}
 
 	@GetMapping("/shops/{shopId}")
-	public Shop getShopById(@PathVariable Integer shopId) {
-		return this.shopService.getShopById(shopId);
+	public ShopDTO getShopById(@PathVariable Integer shopId) {
+		return this.shopService.getShopDTOById(shopId);
+	}
+
+	@GetMapping("/shops/{shopId}/owner")
+	public Integer getOwnerId(@PathVariable Integer shopId) {
+		return this.shopService.getOwnerId(shopId);
 	}
 
 	@DeleteMapping("/shops/{shopId}")

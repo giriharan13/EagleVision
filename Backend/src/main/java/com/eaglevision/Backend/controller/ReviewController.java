@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eaglevision.Backend.dto.CreateReviewDTO;
+import com.eaglevision.Backend.dto.CreateItemReviewDTO;
 import com.eaglevision.Backend.dto.CreateShopReviewDTO;
 import com.eaglevision.Backend.model.Item;
 import com.eaglevision.Backend.model.ItemReview;
@@ -56,7 +56,7 @@ public class ReviewController {
 
 	@PostMapping(value = "shops/{shopId}/items/{itemId}/reviews")
 	public ResponseEntity<ItemReview> createItemReview(@PathVariable Integer shopId, @PathVariable Integer itemId,
-			@RequestBody CreateReviewDTO createReviewRequest) {
+			@RequestBody CreateItemReviewDTO createReviewRequest) {
 		Item item = this.itemReviewService.getItemForReview(itemId);
 		ItemReview itemReview = this.buyerReviewService.createItemReview(createReviewRequest, item);
 		return ResponseEntity.ok(reviewService.createItemReview(itemReview));
