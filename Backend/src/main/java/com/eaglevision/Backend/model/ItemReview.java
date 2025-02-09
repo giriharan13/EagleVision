@@ -7,14 +7,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Transient;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "reviewId")
 public class ItemReview extends Review {
 
 	@JsonBackReference(value = "item-review")
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "item_id", nullable = false)
+	@ManyToOne()
+	@JoinColumn(name = "item_id")
 	private Item item;
 
 	public ItemReview() {

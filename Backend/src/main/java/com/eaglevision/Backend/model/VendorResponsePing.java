@@ -15,7 +15,7 @@ public class VendorResponsePing extends Ping {
 	private Integer quantity;
 
 	@JsonBackReference(value = "vendor-ping")
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name = "vendor_id")
 	private Vendor vendor;
 

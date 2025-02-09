@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -11,9 +12,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -30,17 +33,34 @@ public class Item {
 	private Double itemPrice;
 
 	@JsonManagedReference(value = "item-ping")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
 	private List<Ping> pingHistory = new ArrayList<Ping>();
 
 	@JsonManagedReference(value = "item-review")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
 	private List<ItemReview> itemReviews = new ArrayList<ItemReview>();
 
 	@JsonBackReference(value = "shop-item")
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "shop_id", nullable = false)
+	@JoinColumn(name = "shop_id")
 	private Shop shop;
+	
+	
+	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
+	private List<EagleEye> eagleEyes = new ArrayList<EagleEye>();
+	
+	private String itemImageName;
+	
+	private String itemImageType;
+	
+	
+	// Not a good idea but ok for now 
+	@Lob
+	@JsonIgnore
+	private byte[] itemImageData;
+	
+	@Transient
+	private String itemImageDataB64;
 
 	public Item() {
 		super();
@@ -116,4 +136,49 @@ public class Item {
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
+
+	public List<EagleEye> getEagleEyes() {
+		return eagleEyes;
+	}
+
+	public void setEagleEyes(List<EagleEye> eagleEyes) {
+		this.eagleEyes = eagleEyes;
+	}
+
+	public String getItemImageName() {
+		return itemImageName;
+	}
+
+	public void setItemImageName(String itemImageName) {
+		this.itemImageName = itemImageName;
+	}
+
+	public String getItemImageType() {
+		return itemImageType;
+	}
+
+	public void setItemImageType(String itemImageType) {
+		this.itemImageType = itemImageType;
+	}
+
+	public byte[] getItemImageData() {
+		return itemImageData;
+	}
+
+	public void setItemImageData(byte[] itemImageData) {
+		this.itemImageData = itemImageData;
+	}
+
+	public String getItemImageDataB64() {
+		return itemImageDataB64;
+	}
+
+	public void setItemImageDataB64(String itemImageDataB64) {
+		this.itemImageDataB64 = itemImageDataB64;
+	}
+	
+	
+	
+	
+	
 }

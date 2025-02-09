@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
@@ -16,12 +17,15 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 public class Buyer extends User {
 
 	@JsonManagedReference(value = "buyer-ping")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer",fetch = FetchType.LAZY,orphanRemoval = true)
 	private List<BuyerCheckPing> pingHistory = new ArrayList<BuyerCheckPing>();
 
 	@JsonManagedReference(value = "buyer-review")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer",fetch = FetchType.LAZY,orphanRemoval = true)
 	private List<Review> reviews = new ArrayList<Review>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer", fetch = FetchType.LAZY,orphanRemoval = true)
+	private List<EagleEye> setEagleEyes = new ArrayList<EagleEye>(); 
 
 	public Buyer() {
 		super();
@@ -71,5 +75,15 @@ public class Buyer extends User {
 	public void addReview(Review review) {
 		this.reviews.add(review);
 	}
+
+	public List<EagleEye> getSetEagleEyes() {
+		return setEagleEyes;
+	}
+
+	public void setSetEagleEyes(List<EagleEye> setEagleEyes) {
+		this.setEagleEyes = setEagleEyes;
+	}
+	
+	
 
 }

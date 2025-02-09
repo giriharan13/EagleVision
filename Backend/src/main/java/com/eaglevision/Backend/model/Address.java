@@ -25,7 +25,7 @@ public class Address {
 
 	private String country;
 
-	private Integer pinCode;
+	private Integer pincode;
 
 	@JsonBackReference(value = "shop-address")
 	@OneToOne(cascade = CascadeType.PERSIST)
@@ -35,24 +35,24 @@ public class Address {
 		super();
 	}
 
-	public Address(String line1, String line2, String city, String state, String country, Integer pinCode) {
+	public Address(String line1, String line2, String city, String state, String country, Integer pincode) {
 		super();
 		this.line1 = line1;
 		this.line2 = line2;
 		this.city = city;
 		this.state = state;
 		this.country = country;
-		this.pinCode = pinCode;
+		this.pincode = pincode;
 	}
 
-	public Address(String line1, String line2, String city, String state, String country, Integer pinCode, Shop shop) {
+	public Address(String line1, String line2, String city, String state, String country, Integer pincode, Shop shop) {
 		super();
 		this.line1 = line1;
 		this.line2 = line2;
 		this.city = city;
 		this.state = state;
 		this.country = country;
-		this.pinCode = pinCode;
+		this.pincode = pincode;
 		this.shop = shop;
 	}
 
@@ -96,12 +96,12 @@ public class Address {
 		this.country = country;
 	}
 
-	public Integer getPinCode() {
-		return pinCode;
+	public Integer getPincode() {
+		return pincode;
 	}
 
-	public void setPinCode(Integer pinCode) {
-		this.pinCode = pinCode;
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
 	}
 
 	public Shop getShop() {
