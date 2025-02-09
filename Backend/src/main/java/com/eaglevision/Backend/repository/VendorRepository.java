@@ -12,4 +12,9 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 
     Optional<Vendor> findByUserName(String userName);
 
+    Optional<Vendor> findByPhoneNumber(String phoneNumber);
+
+    Optional<Boolean> existsByPhoneNumber(String phoneNumber);
+
+    Optional<Boolean> existsByTelegramUserId(String telegramUserId);
 }
