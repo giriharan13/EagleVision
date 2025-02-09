@@ -3,6 +3,8 @@ package com.eaglevision.Backend.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eaglevision.Backend.model.Buyer;
+import com.eaglevision.Backend.model.EagleEye;
 import com.eaglevision.Backend.model.Item;
 import com.eaglevision.Backend.model.ItemReview;
 import com.eaglevision.Backend.model.Ping;
@@ -16,9 +18,15 @@ public class ItemDTO {
 
     private Integer vendorId;
 
-    private List<ItemReviewDTO> itemReviews = new ArrayList<>();
-
-    private List<Ping> pingHistory;
+   
+    private String itemImageName;
+    
+    private String itemImageType;
+    
+    private String itemImageDataB64 ;
+    
+    private Boolean currentUserSetEagleEye;
+   
 
     public ItemDTO(Item item) {
         this.itemId = item.getItemId();
@@ -26,12 +34,24 @@ public class ItemDTO {
         this.itemDescription = item.getItemDescription();
         this.itemPrice = item.getItemPrice();
         this.vendorId = item.getShop().getVendor().getUserId();
-        this.itemReviews = item.getItemReviews().stream().map((ItemReview itemReview) -> new ItemReviewDTO(itemReview))
-                .toList();
-        this.pingHistory = item.getPingHistory();
+        this.itemImageName = item.getItemImageName();
+        this.itemImageType = item.getItemImageType();
+        this.itemImageDataB64 = item.getItemImageDataB64();
     }
 
-    public Integer getItemId() {
+    public ItemDTO(Item item, Buyer buyer) {
+    	 this.itemId = item.getItemId();
+         this.itemName = item.getItemName();
+         this.itemDescription = item.getItemDescription();
+         this.itemPrice = item.getItemPrice();
+         this.vendorId = item.getShop().getVendor().getUserId();
+         this.itemImageName = item.getItemImageName();
+         this.itemImageType = item.getItemImageType();
+         this.itemImageDataB64 = item.getItemImageDataB64();
+         this.currentUserSetEagleEye = buyer.getSetEagleEyes().stream().anyMatch((EagleEye eagleEye)->eagleEye.getItem().getItemId()==this.itemId);
+	}
+
+	public Integer getItemId() {
         return itemId;
     }
 
@@ -71,20 +91,38 @@ public class ItemDTO {
         this.vendorId = vendorId;
     }
 
-    public List<ItemReviewDTO> getItemReviews() {
-        return itemReviews;
-    }
+	public String getItemImageName() {
+		return itemImageName;
+	}
 
-    public void setItemReviews(List<ItemReviewDTO> itemReviews) {
-        this.itemReviews = itemReviews;
-    }
+	public void setItemImageName(String itemImageName) {
+		this.itemImageName = itemImageName;
+	}
 
-    public List<Ping> getPingHistory() {
-        return pingHistory;
-    }
+	public String getItemImageType() {
+		return itemImageType;
+	}
 
-    public void setPingHistory(List<Ping> pingHistory) {
-        this.pingHistory = pingHistory;
-    }
+	public void setItemImageType(String itemImageType) {
+		this.itemImageType = itemImageType;
+	}
+
+	public String getItemImageDataB64() {
+		return itemImageDataB64;
+	}
+
+	public void setItemImageDataB64(String itemImageDataB64) {
+		this.itemImageDataB64 = itemImageDataB64;
+	}
+
+	public Boolean getCurrentUserSetEagleEye() {
+		return currentUserSetEagleEye;
+	}
+
+	public void setCurrentUserSetEagleEye(Boolean currentUserSetEagleEye) {
+		this.currentUserSetEagleEye = currentUserSetEagleEye;
+	}
+	
+	
 
 }

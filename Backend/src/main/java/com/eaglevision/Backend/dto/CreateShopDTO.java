@@ -1,12 +1,18 @@
 package com.eaglevision.Backend.dto;
 
+import java.io.Serializable;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eaglevision.Backend.model.Address;
 import com.eaglevision.Backend.model.Hours;
 import com.eaglevision.Backend.model.Item;
+import com.eaglevision.Backend.model.ShopCategory;
+import com.eaglevision.Backend.model.ShopLocation;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
-public class CreateShopDTO {
+public class CreateShopDTO implements Serializable{
 
 	private String shopName;
 
@@ -15,12 +21,18 @@ public class CreateShopDTO {
 	private String contactNumber;
 
 	private Address address;
-
+	
 	private Hours hours;
 
 	private String userName;
 
-	public List<Item> items;
+	private List<Item> items;
+	
+	private ShopCategory shopCategory;
+
+	private ShopLocation shopLocation;
+	
+	
 
 	public String getShopName() {
 		return shopName;
@@ -77,4 +89,23 @@ public class CreateShopDTO {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
+
+	public ShopCategory getShopCategory() {
+		return shopCategory;
+	}
+
+	public void setShopCategory(ShopCategory shopCategory) {
+		this.shopCategory = shopCategory;
+	}
+
+	public ShopLocation getShopLocation() {
+		return shopLocation;
+	}
+
+	public void setShopLocation(ShopLocation shopLocation) {
+		this.shopLocation = shopLocation;
+	}
+
+
+	
 }

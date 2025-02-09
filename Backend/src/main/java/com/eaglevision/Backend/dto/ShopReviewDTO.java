@@ -1,6 +1,9 @@
 package com.eaglevision.Backend.dto;
 
+import java.util.Set;
+
 import com.eaglevision.Backend.model.ShopReview;
+import com.eaglevision.Backend.model.User;
 
 public class ShopReviewDTO {
 
@@ -8,30 +11,29 @@ public class ShopReviewDTO {
 
     private String comment;
 
-    private Integer stars, likes, dislikes;
+    private Integer stars;
+    
+    private Integer likesCount, dislikesCount;
 
     private String authorUserName;
 
     private Integer authorUserId;
+    
+    private Boolean currentUserLiked;
+    
+    private Boolean currentUserDisliked;
 
-    public ShopReviewDTO(String comment, Integer stars, Integer likes, Integer dislikes, String authorUserName,
-            Integer authorUserId) {
-        this.comment = comment;
-        this.stars = stars;
-        this.likes = likes;
-        this.dislikes = dislikes;
-        this.authorUserName = authorUserName;
-        this.authorUserId = authorUserId;
-    }
 
-    public ShopReviewDTO(ShopReview shopReview) {
+    public ShopReviewDTO(ShopReview shopReview,Integer userId) {
         this.reviewId = shopReview.getReviewId();
         this.comment = shopReview.getComment();
+        this.likesCount = shopReview.getLikes().size();
+        this.dislikesCount = shopReview.getDislikes().size();
         this.stars = shopReview.getStars();
-        this.likes = shopReview.getLikes();
-        this.dislikes = shopReview.getDislikes();
         this.authorUserName = shopReview.getBuyer().getUserName();
         this.authorUserId = shopReview.getBuyer().getUserId();
+        this.currentUserLiked = shopReview.getLikes().stream().anyMatch((User user)->user.getUserId()==userId);
+        this.currentUserDisliked = shopReview.getDislikes().stream().anyMatch((User user)->user.getUserId()==userId);
     }
 
     public String getComment() {
@@ -50,23 +52,23 @@ public class ShopReviewDTO {
         this.stars = stars;
     }
 
-    public Integer getLikes() {
-        return likes;
-    }
+	public Integer getLikesCount() {
+		return likesCount;
+	}
 
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
+	public void setLikesCount(Integer likesCount) {
+		this.likesCount = likesCount;
+	}
 
-    public Integer getDislikes() {
-        return dislikes;
-    }
+	public Integer getDislikesCount() {
+		return dislikesCount;
+	}
 
-    public void setDislikes(Integer dislikes) {
-        this.dislikes = dislikes;
-    }
+	public void setDislikesCount(Integer dislikesCount) {
+		this.dislikesCount = dislikesCount;
+	}
 
-    public String getAuthorUserName() {
+	public String getAuthorUserName() {
         return authorUserName;
     }
 
@@ -89,5 +91,23 @@ public class ShopReviewDTO {
     public void setReviewId(Integer reviewId) {
         this.reviewId = reviewId;
     }
+
+	public Boolean getCurrentUserLiked() {
+		return currentUserLiked;
+	}
+
+	public void setCurrentUserLiked(Boolean currentUserLiked) {
+		this.currentUserLiked = currentUserLiked;
+	}
+
+	public Boolean getCurrentUserDisliked() {
+		return currentUserDisliked;
+	}
+
+	public void setCurrentUserDisliked(Boolean currentUserDisliked) {
+		this.currentUserDisliked = currentUserDisliked;
+	}
+    
+    
 
 }
