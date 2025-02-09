@@ -1,11 +1,18 @@
 import axios from "axios";
 
 
-const ApiClient = axios.create({
+export const ApiClient = axios.create({
     "baseURL":"http://localhost:8080"
 })
 
-ApiClient.interceptors.request.use((config) => {
+
+export const SecureApiClient = axios.create({
+    "baseURL":"http://localhost:8080/api/secure"
+})
+
+
+
+SecureApiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('JWTToken'); 
     if (token) {
         config.headers['Authorization'] = 'Bearer ' + token;  
@@ -14,6 +21,3 @@ ApiClient.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
-
-
-export default ApiClient;

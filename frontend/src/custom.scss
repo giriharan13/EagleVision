@@ -1,19 +1,24 @@
 
 //custom colors
-$primary:#5236FF;
-$secondary:#242331;
-$light:#EFECFF;
+$primary:#213555;
+$secondary:#8D8DAA;
+$light:#F5EFE7;
+$black:#45474B;
+
 
 .form-control,.form-select{
     border-radius: 0.8rem !important;
-    width: 50rem !important;
-    margin-bottom: 0.5rem !important;
 }
+
+.mt-200{
+    margin-top: 200px!important;
+}
+
+
 
 form{
     display: flex;
     flex-direction: column;
-    width: 100%;
     justify-content: center;
     align-items: center;
 }

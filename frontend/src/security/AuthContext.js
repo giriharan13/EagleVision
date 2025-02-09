@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authenticate } from "../service/BackendApi";
+import { authenticate, getActiveSubscription } from "../service/BackendApi";
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext()
 
@@ -20,6 +21,16 @@ export default function AuthProvider({children}){
         return JWTToken ? jwtDecode(JWTToken) : null;
     })
 
+    const [position,setPosition] = useState([0,0])
+
+    const [isLoading,setIsLoading] = useState(true)
+
+    const [roles,setRoles] = useState("")
+
+    const [activeSubscription,setActiveSubscription] = useState({})
+
+    const [refreshSubscription,setRefreshSubscription] = useState(false)
+
     useEffect(()=>{
         if(JWTToken){
             localStorage.setItem("JWTToken",JWTToken);
@@ -32,10 +43,31 @@ export default function AuthProvider({children}){
         }
     },[JWTToken])
 
+    useEffect(()=>{
+            navigator.geolocation.getCurrentPosition(success,error);
 
+            function success (position){
+                
+                setPosition([position.coords.latitude,position.coords.longitude]);
+                setIsLoading(false)
+            }
 
+            function error (){
+                console.log("Unable to access your location.")
+            }
+    },[])
 
-    const login = (username,password)=>{
+    useEffect(()=>{
+        if(isAuthenticated){
+            getActiveSubscription().then((response)=>{
+                setActiveSubscription(response.data)
+            }).catch((error)=>{
+                toast.error("Error occured while fetching active subscription")
+            })
+        }
+    },[JWTToken,refreshSubscription])
+
+    const login = async (username,password)=>{
         return authenticate(username,password)
         .then((response)=>{
             setIsAuthenticated(true);
@@ -58,7 +90,7 @@ export default function AuthProvider({children}){
     }
 
 
-    const state = {isAuthenticated,JWTToken,decoded,login,logout}
+    const state = {isAuthenticated,JWTToken,decoded,login,logout,position,isLoading,activeSubscription}
 
     return (
         <AuthContext.Provider value={state}>

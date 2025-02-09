@@ -15,7 +15,11 @@ code {
 }
 
 *{
-  font-family: 'Nunito', sans-serif;
+  font-family:'Open sans', sans-serif;
+}
+
+#root{
+  background-color: #213555;
 }
 
 .button-primary{
