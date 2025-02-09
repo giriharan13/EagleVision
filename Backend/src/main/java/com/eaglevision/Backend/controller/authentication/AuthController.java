@@ -6,15 +6,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eaglevision.Backend.dto.RegisterUserDTO;
@@ -97,6 +101,16 @@ public class AuthController {
         return new ResponseEntity<>("Valid phone number", HttpStatus.OK);
     }
 
+    @GetMapping("user_exists_by_phoneNumber/{phoneNumber}")
+    public ResponseEntity<Boolean> checkUserExistsByPhoneNumber(@PathVariable String phoneNumber) {
+        return new ResponseEntity<>(userService.userExistsWithPhoneNumber(phoneNumber), HttpStatus.OK);
+    }
+
+    @GetMapping("vendor_exists_by_telegram_user_id/{telegramUserId}")
+    public ResponseEntity<Boolean> checkVendorExistsByTelegramUserId(@PathVariable String telegramUserId) {
+        return new ResponseEntity<>(vendorService.existsByTelegramUserId(telegramUserId), HttpStatus.OK);
+    }
+
     private String createToken(Authentication authentication) {
         var claims = JwtClaimsSet.builder()
                 .issuer("self")
@@ -109,6 +123,7 @@ public class AuthController {
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
     }
+    
 
     private String createScope(Authentication authentication) {
         return authentication.getAuthorities().stream().map((auth) -> auth.toString()).collect(Collectors.joining(" "));
