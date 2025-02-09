@@ -42,7 +42,7 @@
             align-items: center;
 
             > .icon{
-                background-color:#242331 ;
+                background-color:#213555;
                 padding: 0.6rem;
                 border-radius: 10rem;
             }
@@ -77,16 +77,17 @@
     > .items {
         display:flex;
         min-height: 15rem;
+        flex-wrap: wrap;
 
         overflow-y: hidden;
         overflow-x: auto;
-        scrollbar-color:#242331 white ;
+        scrollbar-color:#213555 white ;
 
-        background-color: rgb(36, 35, 49,0.04);
+        background-color: #213555;
         border-radius: 1rem;
 
         > div {
-            width: 100%;
+            width: 60%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -108,7 +109,7 @@
         flex-direction: column;
         gap:0.5rem;
         align-items: flex-start;
-        background-color: rgb(36, 35, 49,0.1) ;
+        background-color: #213555 ;
         padding: 1rem;
         border-radius: 1rem;
 
@@ -124,7 +125,7 @@
     > .reviews{
         padding: 2rem;
         margin-top:2rem;
-        background-color: rgb(36, 35, 49,0.04);
+        background-color: #213555;
         border-radius: 1rem;
     }
 }

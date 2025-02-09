@@ -1,8 +1,8 @@
 .welcome{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px;
+    align-items: left;
+    justify-content: left;
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -10,4 +10,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.category{
+    width: 20rem;
+    transition: 0.2s;
+}
+
+.category:hover{
+    scale: 1.05;
+    transition: 0.2s ease-in-out;
 }

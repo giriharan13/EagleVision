@@ -28,7 +28,8 @@ export default function Signup(){
         dateOfBirth:"",
         type:"",
         password:"",
-        confirmPassword:""
+        confirmPassword:"",
+        role:"-"
     }
 
     const signUpFields = [
@@ -39,7 +40,7 @@ export default function Signup(){
         {name:"confirmPassword",type:!showPassword?"password":"text"}
     ]
 
-    const handleSignUp =  (values)=>{
+    const handleSignUp = async  (values)=>{
             return signup(values.username,values.phoneNumber,values.dateOfBirth,values.password,values.role).then(
                 (response)=>{
                     toast.success("Signed up successfully!");
@@ -59,7 +60,7 @@ export default function Signup(){
     },[isAuthenticated,navigate])
 
 
-    return <div>
+    return <div className="text-light">
         <Formik initialValues={initialValues}
         enableReinitialize={true} validationSchema={signUpSchema} validateOnChange={false}
         onSubmit={(values)=>handleSignUp(values)}>
@@ -84,6 +85,7 @@ export default function Signup(){
                                 <option>BUYER</option>
                                 <option>VENDOR</option>
                             </Field>
+                            {touched["role"] && errors["role"] && <div className="alert alert-warning">{errors["role"]}</div>}
                         </div>
                         <div>
                             <button className="btn btn-success" type="submit">Signup</button>

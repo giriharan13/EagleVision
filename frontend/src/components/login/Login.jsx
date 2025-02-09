@@ -33,7 +33,7 @@ export default function Login(){
         }
     },[navigate])
 
-    return (<div className="fluid-container">
+    return (<div className="fluid-container text-light">
         <Formik initialValues={
             {
                 username:"",

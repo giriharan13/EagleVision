@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { createVendorPing, getItemById, getOwnerId, getPingsById } from "../../service/BackendApi";
+import { createVendorPing, getItemById, getOwnerId, getPingsById, replyVendorPing } from "../../service/BackendApi";
 import { useParams } from "react-router-dom";
 import ShopImage from "./../../images/shop.jpg"
 import { useAuth } from "../../security/AuthContext";
 import { Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
+import { ref } from "yup";
 
 
 export default function ListPings(){
@@ -21,6 +22,8 @@ export default function ListPings(){
 
     const authContext = useAuth();
 
+    const [position,setPosition] = useState(authContext?.position)
+
 
     const initialValues = {
         quantity:"0",
@@ -29,14 +32,8 @@ export default function ListPings(){
 
     useEffect(()=>{
         
-        getPingsById(shopId,itemId).then((response)=>{
-            refreshPings(response.data)
-        }).catch((err)=>{
-            console.log(err);
-        })
-
-        getItemById(shopId,itemId).then((response)=>{
-            refreshItem(response.data);
+        getPingsById(shopId,itemId,position).then((response)=>{
+            refreshPings(response.data.content)
         }).catch((err)=>{
             console.log(err);
         })
@@ -57,6 +54,11 @@ export default function ListPings(){
         }
     },[itemId,shopId,refresh])
 
+    useEffect(()=>{
+        setPosition(authContext?.position)
+        setRefresh(!refresh)
+    },[authContext?.position])
+
     async function handleReplyPing(pingId,values){
         return createVendorPing(shopId,itemId,pingId,{
             quantity:values.quantity,
@@ -71,16 +73,16 @@ export default function ListPings(){
     }
 
 
-    return <div className="container">
-    <div className="row">
-        <div className="col-6">
+    return <div className="d-flex flex-column align-items-center justify-content-center">
+        <h1 className="text-light my-2">Pings</h1>
+    <div className="d-flex flex-column justify-content-center align-items-center">
         {(pings.length===0)?<h4>No pings on this item yet!</h4>:pings.map((ping)=>{
-            return (<div className="card border-warning mb-3" style={{maxWidth:"40rem"}} key={ping.pingId}>
-                <div className="card-header text-warning">Buyer ping</div>
+            return (<div className="card border-warning my-4"  key={ping.pingId}>
+                <div className="card-header text-warning px-5">Buyer ping</div>
                 <div className="card-body">
-                    <h5 className="title"> By {ping.userName}</h5>
+                    <h5 className="title px-5"> By {ping.userName}</h5>
 
-                    {(ping.vendorResponsePing === null) ? <div>No response yet.</div> : 
+                    {(ping.vendorResponsePing === null) ? <div className="px-5">No response yet.</div> : 
                     <div className="card border-success mb-3" style={{maxWidth:"40rem"}} >
                         <div className="card-header">Vendor ping</div>
                         <div className="card-body">
@@ -98,6 +100,5 @@ export default function ListPings(){
             </div>);
         }).reverse()}
         </div>
-    </div>
-    </div>
+        </div>
 }

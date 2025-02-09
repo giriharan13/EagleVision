@@ -9,7 +9,7 @@ import StarField from '../starField/StarField';
 import toast from 'react-hot-toast';
 
 
-function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,toggleDislike}) {
+export default function ItemReview({review,key,handleUpdateReview,handleDeleteReview,toggleLike,toggleDislike,shopId,itemId}) {
   const [editMode,setEditMode] = useState(false);
 
   const authContext = useAuth();
@@ -32,12 +32,12 @@ function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,tog
 
 
   return (
-        <div key={key} className='review'>
+        <div key={key} className='review text-primary'>
             
           { !editMode && 
             <div className='review-info'>
               <div className='author'>
-                <a href={`/profile/${review.authorUserId}`}>{review.authorUserName}</a>
+                {review.authorUserName}
               </div>
               <div className='content'>
                 <div className='comment'>
@@ -58,7 +58,7 @@ function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,tog
                 <div className='d-flex'>
                   <div className='d-flex m-2 justify-content-center align-items-center'>
                      <button className='btn btn-primary' onClick={()=>{
-                         toggleLike(setLiked,setDisliked,review,liked,disliked)
+                         toggleLike(shopId,itemId,setLiked,setDisliked,review,liked,disliked)
                      }}>
                      {liked?(<AiFillLike/>):(<AiOutlineLike/>) }
                      </button>
@@ -68,7 +68,7 @@ function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,tog
                   </div>
                   <div className='d-flex m-2 justify-content-center align-items-center'>
                     <button className='btn btn-primary' onClick={()=>{
-                      toggleDislike(setLiked,setDisliked,review,liked,disliked)
+                      toggleDislike(shopId,itemId,setLiked,setDisliked,review,liked,disliked)
                     }}>
                     {disliked?(<AiFillDislike/>):(<AiOutlineDislike/>)}
                     </button>
@@ -80,22 +80,22 @@ function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,tog
 
               </div>
 
-              {review.authorUserId === authContext.decoded.userId && <div className='d-flex'>
-                  <button className='btn btn-primary mx-2' onClick={()=>{setEditMode(true)}}><AiFillEdit/></button>
-                  <button className='btn btn-primary mx-2' onClick={()=>handleDeleteReview(review.reviewId)}><RiDeleteBinFill/></button>
+              {review.authorUserId === authContext.decoded.userId && <div className='d-flex gap-2'>
+                  <button className='btn btn-primary' onClick={()=>{setEditMode(true)}}><AiFillEdit/></button>
+                  <button className='btn btn-primary' onClick={()=>handleDeleteReview(shopId,itemId,review.reviewId)}><RiDeleteBinFill/></button>
                 </div>}
             </div>
           }
           { editMode && review.authorUserId === authContext.decoded.userId &&  <div className='edit-review'>
             <Formik initialValues={initialValues} enableReinitialize onSubmit={(values)=>{
-              handleUpdateReview(values,review.reviewId)
+              handleUpdateReview(shopId,itemId,review.reviewId,values)
               setEditMode(false)}}>
               {({setFieldValue,values})=>(<Form className='review-form'>
                 <Field as="textarea" name="comment"/>
                 <StarField setFieldValue={setFieldValue} stars={stars} setStars={setStars}/>
-                <div className='m-2'>
-                   <button className='btn btn-primary mx-2' onClick={()=>{setEditMode(false)}}>cancel</button>
-                   <button className='btn btn-primary mx-2' type='submit' >save</button>
+                <div className='d-flex gap-2 m-2'>
+                   <button className='btn btn-primary' onClick={()=>{setEditMode(false)}}>cancel</button>
+                   <button className='btn btn-primary' type='submit' >save</button>
                 </div>
               </Form>)}
             </Formik>
@@ -105,5 +105,3 @@ function Review({review,key,handleUpdateReview,handleDeleteReview,toggleLike,tog
         </div>
   )
 }
-
-export default Review
