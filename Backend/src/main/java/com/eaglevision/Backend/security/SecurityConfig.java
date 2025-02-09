@@ -5,8 +5,11 @@ import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -20,7 +23,13 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.eaglevision.Backend.security.filters.BotAuthenticationFilter;
+import com.eaglevision.Backend.security.filters.WebSocketAuthenticationFilter;
+import com.eaglevision.Backend.service.AuthorityUtilityService;
+import com.eaglevision.Backend.service.UserService;
+import com.eaglevision.Backend.service.VendorService;
 import com.nimbusds.jose.jwk.JWKSelector;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -32,6 +41,18 @@ import com.nimbusds.jose.proc.SecurityContext;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Value("${bot.token}")
+    private String botToken;
+
+  
+    @Autowired
+    @Lazy
+    private VendorService vendorService;
+
+    @Autowired
+    @Lazy
+    private WebSocketAuthenticationFilter webSocketAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
@@ -39,8 +60,18 @@ public class SecurityConfig {
             auth.requestMatchers("/h2-console/**").permitAll();
             auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
             auth.requestMatchers("/auth/**").permitAll();
-            auth.anyRequest().authenticated();
+            auth.requestMatchers("/api/secure/**").authenticated();
+            auth.requestMatchers("/api/bot/**").permitAll();
+            auth.requestMatchers("/ws/**").permitAll();
+            auth.anyRequest().authenticated(); 
         });
+
+        http.addFilterBefore(new BotAuthenticationFilter(botToken, vendorService),
+                UsernamePasswordAuthenticationFilter.class);
+        
+        http.addFilterBefore(webSocketAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class);
+
         http.httpBasic(Customizer.withDefaults());
         http.cors(Customizer.withDefaults());
         http.headers((header) -> header.frameOptions((frame) -> frame.sameOrigin()));
