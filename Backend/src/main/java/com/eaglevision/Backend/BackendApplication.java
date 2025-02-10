@@ -20,7 +20,7 @@ public class BackendApplication {
 			@Override
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000","https://eagle-vision-gmc8bq58h-giriharans-projects.vercel.app").allowedMethods("*").allowedHeaders("*")
+						.allowedOrigins("http://localhost:3000","https://eagle-vision-seven.vercel.app").allowedMethods("*").allowedHeaders("*")
 						.allowCredentials(true);
 			}
 		};
