@@ -1,13 +1,15 @@
 import axios from "axios";
 
 
+const host_url = process.env.REACT_APP_BACKEND_HOST_URL;
+
 export const ApiClient = axios.create({
-    "baseURL":"http://localhost:8080"
+    "baseURL":host_url
 })
 
 
 export const SecureApiClient = axios.create({
-    "baseURL":"http://localhost:8080/api/secure"
+    "baseURL":`${host_url}/api/secure`
 })
 
 

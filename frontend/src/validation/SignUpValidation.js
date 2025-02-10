@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { checkPhoneNumber, checkUsername } from "../service/BackendApi";
 
 export const signUpSchema = Yup.object().shape({
-    username:Yup.string().min(6,"username is too short!").max(30,"username is too large!").required("Username is required"),
+    username:Yup.string().min(6,"username is too short!").max(30,"username is too large!") .matches(/^\S*$/, "No spaces allowed").required("Username is required"),
     phoneNumber:Yup.string().min(10,"Invalid phone number!").max(10,"Invalid phone number!").matches(/^[0-9]+$/, "Phone number must contain only digits"),
     dateOfBirth: Yup.date().max(new Date(),"Invalid date of birth!"),
     password: Yup.string().required("Password is required!").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,"Create a strong password"),

@@ -1,5 +1,4 @@
 import React from 'react'
-import ShopImage from "./../../images/shop.jpg";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "./Item.scss"
 import { GrLinkNext } from "react-icons/gr";

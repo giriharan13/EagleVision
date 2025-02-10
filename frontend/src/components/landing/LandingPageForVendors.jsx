@@ -1,6 +1,5 @@
 import Logo from "../../images/eaglevisionlogo.png"
 import { vendorFeatures } from "../../config/Features"
-import GradientBG from "../../images/gradient-bg.png"
 import { Link, useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import { VendorSubscriptions} from "../../config/Subscription"

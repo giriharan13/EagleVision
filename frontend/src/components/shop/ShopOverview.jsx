@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { GrNext } from "react-icons/gr";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { AiFillEdit } from "react-icons/ai";
-import ShopImage from "./../../images/shop.jpg"
 import { Link, useNavigate } from "react-router-dom";
 import { deleteShop } from '../../service/BackendApi';
 import toast from 'react-hot-toast';

@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { createBuyerPing, createItemReview, deleteItem, deleteItemReview, getItemById, getItemReviewsByItemId, getOwnerId, removeEagleEye, setEagleEye, toggleItemReviewDislike, toggleItemReviewLike, updateItemReview } from '../../service/BackendApi';
 import toast from 'react-hot-toast';
-import ShopImage from "./../../images/shop.jpg"
 
 import { AiFillEdit } from "react-icons/ai";
 import { RiDeleteBinFill,RiPushpinFill } from "react-icons/ri";
-import { FaQuestion } from "react-icons/fa";
 import { useAuth } from '../../security/AuthContext';
 import Reviews from '../reviews/Reviews';
 import PingIcon from "../../images/pingvf.png"

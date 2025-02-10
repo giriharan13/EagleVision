@@ -6,7 +6,6 @@ import ShopImage from "./../../images/manageshops.jpg"
 import PingImage from "./../../images/pings.jpg"
 import ReviewsImage from "./../../images/reviews.jpg"
 import { shopCategories } from "../../config/ShopCategories";
-import { Field, Form, Formik } from "formik";
 import { useState } from "react";
 import toast from "react-hot-toast";
 

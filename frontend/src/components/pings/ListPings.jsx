@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react"
 import { createVendorPing, getItemById, getOwnerId, getPingsById, replyVendorPing } from "../../service/BackendApi";
 import { useParams } from "react-router-dom";
-import ShopImage from "./../../images/shop.jpg"
 import { useAuth } from "../../security/AuthContext";
 import { Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
-import { ref } from "yup";
 
 
 export default function ListPings(){

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 // import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-import ShopImage from "./../../images/shop.jpg"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../security/AuthContext";
 import {  getShopsByVendor } from "../../service/BackendApi";
