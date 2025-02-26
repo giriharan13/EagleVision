@@ -57,8 +57,9 @@ export default function Login(){
                         </div>
                     </div>
                     <div>
-                        <button className="btn btn-success" type="submit">Login</button>
+                        <button className="btn btn-success" type="submit" disabled>Login</button>
                     </div>
+                    <h5 style={{color:'red'}}>*The login & signup functionality is disabled on production as of now</h5>
                 </Form>)
             }
         </Formik>

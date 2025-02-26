@@ -88,8 +88,9 @@ export default function Signup(){
                             {touched["role"] && errors["role"] && <div className="alert alert-warning">{errors["role"]}</div>}
                         </div>
                         <div>
-                            <button className="btn btn-success" type="submit">Signup</button>
+                            <button className="btn btn-success" type="submit" disabled>Signup</button>
                          </div>
+                         <h5 style={{color:'red'}}>*The login & signup functionality is disabled on production as of now</h5>
                     </Form>
                     </div>
                 }}
